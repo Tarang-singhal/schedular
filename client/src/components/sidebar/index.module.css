@@ -1,0 +1,36 @@
+.sidebar{
+    min-width: 300px;
+    padding: 20px 10px;
+    border-right: 1px solid #bbb;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.addTeacher{
+    display: flex;
+    align-items: center;
+    color: #1878e6ec;
+    background-color: #dbecff;
+    border: 1px solid white;
+    padding: 10px 15px;
+    font-weight: 500;
+    cursor: pointer;
+    user-select: none;
+    border-radius: 5px;
+}
+
+.addTeacher:hover{
+    background-color: #bcdcff;
+}
+
+.addTeacher:active{
+    background-color: #bcdcff;
+    border: 1px solid #1878e6ec;
+    color: #0670e9ec;
+}
+
+.buttonText{
+    margin-left: 8px;
+    font-size: 18px;
+}

@@ -1,0 +1,138 @@
+.container {
+    padding: 13px;
+    height: 100%;
+}
+
+.controls {
+    display: flex;
+    align-items: center;
+    margin-bottom: 25px;
+}
+
+.prev,
+.next {
+    border: 1px solid #eee;
+    color: black;
+    padding: 7px;
+    width: 40px;
+    height: 40px;
+    margin: 5px;
+    border-radius: 50%;
+    border: 1px solid rgb(194, 185, 185);
+}
+
+.today {
+    padding: 10px 18px;
+    margin-right: 20px;
+    font-size: 17px;
+    background-color: #eee;
+    border: 1px solid rgb(194, 185, 185);
+    border-radius: 22px;
+}
+
+.prev:hover,
+.next:hover,
+.today:hover {
+    background-color: #ddd;
+}
+
+.prev:active,
+.next:active,
+.today:active {
+    background-color: #ccc;
+}
+
+.date {
+    width: 95px;
+    text-align: center;
+}
+
+
+.monthView {
+    width: 100%;
+    height: 85%;
+    display: flex;
+    flex-direction: column;
+}
+
+.weekNames {
+    display: flex;
+    background-color: #279cef;
+    color: white;
+}
+
+.weekName {
+    text-align: center;
+    margin: 5px;
+    width: calc(100% / 7);
+}
+
+.week {
+    display: flex;
+    width: 100%;
+    min-height: 120px;
+    height: 150px;
+}
+
+.day {
+    width: calc(100% / 7);
+    border: 1px solid lightgray;
+    margin: 5px;
+    padding: 5px;
+    user-select: none;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    word-wrap: break-word;
+}
+
+.dayHover:hover {
+    background-color: #e5ffff;
+    box-shadow: 2px 3px #eee;
+}
+
+.currDay {
+    background-color: #dbecff;
+    color: black;
+}
+
+.currDay:hover {
+    background-color: #86c4f0;
+    color: white;
+}
+
+.disableDay {
+    color: #bbb;
+}
+
+.slotsContainer {
+    overflow-y: auto;
+    width: 100%;
+}
+
+.slots{
+    word-break: break-all;
+}
+
+.slot{
+    font-size: 13px;
+    display: flex;
+    margin: 3px 0;
+    padding: 2px 3px;
+    border-radius: 2px;
+}
+
+.slot:hover{
+    background-color: rgb(7, 5, 12);
+    color: white;
+}
+
+
+.name{
+    margin-right: 15px;
+    width: 35%;
+}
+
+.time{
+    width: 65%;
+}

@@ -1,0 +1,48 @@
+.modal {
+    display: none;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 1;
+    background-color: rgba(0, 0, 0, 0.5);
+    width: 100%;
+}
+
+.openModal {
+    display: block;
+}
+
+.modalBox {
+    margin: 15vh auto;
+    height: 450px;
+    min-width: 350px;
+    max-width: 500px;
+    width: 80%;
+    background-color: white;
+    border-radius: 5px;
+    padding: 20px;
+}
+
+.modalHeading {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.modalHeadingText {
+    font-size: 20px;
+    margin: 5px 0;
+}
+
+.modalClose {
+    padding: 4px;
+    cursor: pointer;
+    border-radius: 100%;
+}
+
+.modalClose:hover {
+    transform: scale(1.2);
+    background-color: #eee;
+}

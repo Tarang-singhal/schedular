@@ -1,0 +1,83 @@
+.backdrop {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: rgba(0, 0, 0, 0.5);
+}
+
+.outerCircle{
+    border: 10px solid #42a6ee;
+    border-right-color: #9ed1f5 ;
+    width: 80px;
+    height: 80px;
+    /* background-color: #279cef; */
+    border-radius: 100%;
+    display: flex;
+    animation: spin 0.5s  0s linear infinite;
+}
+
+@keyframes spin{
+    0%{
+        transform: rotate(0deg);
+    }
+    100%{
+        transform: rotate(359deg);
+    }
+}
+
+.list {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    padding: 2px 10px;
+}
+
+.listItem {
+    width: 100%;
+    display: flex;
+    padding: 10px 20px;
+    align-items: center;
+    cursor: pointer;
+}
+
+.listItem:hover {
+    background-color: #eee;
+}
+
+.checkBox {
+    font-size: 18px;
+    margin-right: 12px;
+}
+
+.listItemText {
+    font-size: 20px;
+}
+
+.icons {
+    margin-left: auto;
+    display: flex;
+    justify-content: space-between;
+}
+
+.editIcon,
+.trashIcon {
+    margin: 8px;
+    cursor: pointer;
+}
+
+.editIcon:hover {
+    color: rgb(0, 68, 255);
+}
+
+.trashIcon:hover {
+    color: red;
+}
