@@ -33,7 +33,7 @@ function InputForm({ teachers, openModal, handleCloseModal, date, slots, setSlot
     }
 
     React.useEffect(() => {
-        if (startTime.isAfter(endTime.clone().subtract(1,'minute'), 'minute') || startTime.isSame(endTime, 'minute')) {
+        if (startTime.isAfter(endTime.clone().subtract(1, 'minute'), 'minute') || startTime.isSame(endTime, 'minute')) {
             setError({
                 start: 'start time should be less than end!',
                 end: null
@@ -53,14 +53,14 @@ function InputForm({ teachers, openModal, handleCloseModal, date, slots, setSlot
                 })
                 return true;
             }
-            if (endTime.isAfter(start.clone().subtract(1 ,'minute'), 'minute') && endTime.isBefore(end.clone().add(1,'minute'), 'minute')) {
+            if (endTime.isAfter(start.clone().subtract(1, 'minute'), 'minute') && endTime.isBefore(end.clone().add(1, 'minute'), 'minute')) {
                 setError({
                     start: null,
                     end: 'end time overlapping with other class time!'
                 })
                 return true;
             }
-            if (startTime.isBefore(start.clone().add(1,'minute'), 'minute') && endTime.isAfter(end.clone().subtract(1,'minute'), 'minute')) {
+            if (startTime.isBefore(start.clone().add(1, 'minute'), 'minute') && endTime.isAfter(end.clone().subtract(1, 'minute'), 'minute')) {
                 setError({
                     start: 'class in between!',
                     end: null
@@ -101,8 +101,8 @@ function InputForm({ teachers, openModal, handleCloseModal, date, slots, setSlot
             teacher_id: selectedTeacher,
             batch_name: batchName.trim(),
             date: selectedDate,
-            start: startTime.toISOString(),
-            end: endTime.toISOString(),
+            start: startTime,
+            end: endTime,
             topic
         };
         try {
@@ -131,7 +131,7 @@ function InputForm({ teachers, openModal, handleCloseModal, date, slots, setSlot
         < Modal
             heading={"Schedule a class"}
             openModal={openModal}
-            handleCloseModal={!submitting && handleClose}
+            handleCloseModal={(!submitting ? handleClose : () => { })}
         >
             <form className={classes.form} onSubmit={handleSubmit}>
                 <label htmlFor="teacher_input">Select teacher: </label>

@@ -8,7 +8,7 @@ import Controls from './controls';
 import DayView from './dayView';
 import WeekView from './weekView';
 import MonthView from './monthView';
-
+import { Plus } from 'react-feather';
 
 function Calendar({ teachers, slots, setSlots, checked }) {
 
@@ -22,7 +22,7 @@ function Calendar({ teachers, slots, setSlots, checked }) {
     }
 
     const handleOpenModal = (day) => {
-        if(teachers.length === 0) return; 
+        if (teachers.length === 0) return;
         setSelectedDate(dayjs(day));
         setOpenModal(true);
     }
@@ -95,6 +95,10 @@ function Calendar({ teachers, slots, setSlots, checked }) {
                 slots={slots}
                 setSlots={setSlots}
             />
+
+            <button className={classes.floatingButton} onClick={(e) => handleOpenModal(dayjs())}>
+                <Plus className={classes.plusIcon} size="38px" />
+            </button>
 
         </div>
     )
