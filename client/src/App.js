@@ -9,6 +9,23 @@ function App() {
   const [teachers, setTeachers] = React.useState([]);
   const [slots, setSlots] = React.useState({});
   const [checked, setChecked] = React.useState([]);
+  const [fetching, setFetching] = React.useState(false);
+
+  React.useEffect(() => {
+    async function fetch() {
+      setFetching(true);
+      let { data } = await Axios.get(`/api/getSlots`);
+      console.log(data.slots);
+      let temp = {};
+      data.slots.forEach(slot => {
+        if (!temp[slot.teacher_id]) temp[slot.teacher_id] = [];
+        temp[slot.teacher_id].push(slot);
+      })
+      setSlots(temp);
+      setFetching(false);
+    }
+    fetch();
+  }, [])
 
   const selectTeacher = async (id) => {
     try {
@@ -34,6 +51,14 @@ function App() {
 
   return (
     <div className={classes.App}>
+      {
+        fetching &&
+        <div className={classes.backdrop}>
+          <span className={classes.outerCircle}>
+            <span className={classes.innerCircle}></span>
+          </span>
+        </div>
+      }
       <Sidebar
         teachers={teachers}
         checked={checked}

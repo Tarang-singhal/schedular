@@ -2,24 +2,12 @@ import React from 'react';
 import dayjs from 'dayjs';
 import classes from './index.module.css';
 import clsx from 'clsx';
-import { ChevronLeft, ChevronRight } from 'react-feather';
+import { Trash2 } from 'react-feather';
 
 const weekNames = ['Sunday', 'Monday', 'Tueday', 'Wednesday', 'Thursday', 'Friday', 'Saturday']
 
-function MonthView({ pointer, setPointer, handleOpenModal, slots, checked }) {
+function MonthView({ pointer, handleOpenModal, slots, checked, deleteSlot }) {
     const [month, setMonth] = React.useState([]);
-
-    const today = () => {
-        setPointer(dayjs());
-    }
-
-    const nextMonth = () => {
-        setPointer(pointer.add('1', 'month').clone());
-    }
-
-    const prevMonth = () => {
-        setPointer(pointer.subtract(1, 'month').clone());
-    }
 
     React.useEffect(() => {
         const temp = [];
@@ -41,22 +29,10 @@ function MonthView({ pointer, setPointer, handleOpenModal, slots, checked }) {
 
     }, [pointer, slots, checked])
 
+
+
     return (
         <div className={classes.container}>
-            <div className={classes.controls}>
-                <button className={classes.today} onClick={today}>
-                    Today
-                </button>
-                <button className={classes.prev} onClick={prevMonth}>
-                    <ChevronLeft />
-                </button>
-                <div className={classes.date} >
-                    {dayjs(pointer).format('MMM-YYYY')}
-                </div>
-                <button className={classes.next} onClick={nextMonth}>
-                    <ChevronRight />
-                </button>
-            </div>
             <div className={classes.monthView}>
                 <div className={classes.weekNames}>
                     {
@@ -87,23 +63,40 @@ function MonthView({ pointer, setPointer, handleOpenModal, slots, checked }) {
                                                 <div className={classes.slotsContainer} onClick={(e) => { e.stopPropagation() }}>
                                                     <div className={classes.slots}>
                                                         {
-                                                            checked.map(t_id =>
-                                                                slots[t_id].map(slot => {
+                                                            checked.map(t => {
+                                                                return (slots[t.id] || []).map(slot => {
                                                                     if (dayjs(slot.start).isSame(day, 'date')) {
                                                                         return (
-                                                                            <div key={slot.id} className={classes.slot}>
-                                                                                <span className={classes.name}>{slot.batch_name.slice(0, 6)}...</span>
-                                                                                <span className={classes.time}>
-                                                                                    {dayjs(slot.start).format('hh:mm a ')}
-                                                                                    -
-                                                                                    {dayjs(slot.end).format(' hh:mm a')}
-                                                                                </span>
+                                                                            <div key={slot.id}
+                                                                                className={classes.slot}
+                                                                                style={{ backgroundColor: t.color }}
+                                                                            >
+                                                                                <div className={classes.detail2}>
+                                                                                    <span className={classes.time}>
+                                                                                        {dayjs(slot.start).format('hh:mm a ')}
+                                                                                        -
+                                                                                        {dayjs(slot.end).format(' hh:mm a')}
+                                                                                    </span>
+                                                                                </div>
+                                                                                <div className={classes.detail1}>
+                                                                                    <span className={classes.name}>{slot.batch_name}</span>
+                                                                                </div>
+                                                                                <div className={classes.detail1}>
+                                                                                    <span className={classes.topic}>
+                                                                                        Topic: {slot.topic}
+                                                                                    </span>
+                                                                                </div>
+                                                                                <div className={classes.detail2}>
+                                                                                    <span className={classes.delete}>
+                                                                                        <Trash2 size="20px" onClick={(e)=> deleteSlot(slot.id, t.id)}/>
+                                                                                    </span>
+                                                                                </div>
                                                                             </div>
                                                                         )
                                                                     }
                                                                     return null;
                                                                 })
-                                                            )
+                                                            })
                                                         }
                                                     </div>
                                                 </div>

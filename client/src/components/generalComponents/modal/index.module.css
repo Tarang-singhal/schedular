@@ -16,7 +16,7 @@
 
 .modalBox {
     margin: 15vh auto;
-    height: 450px;
+    min-height: 480px;
     min-width: 350px;
     max-width: 500px;
     width: 80%;

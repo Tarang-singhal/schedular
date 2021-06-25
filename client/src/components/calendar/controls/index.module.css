@@ -1,0 +1,55 @@
+
+.bar{
+    padding: 20px;
+    display: flex;
+    align-items: center;
+}
+
+.controls {
+    display: flex;
+    align-items: center;
+}
+
+.prev,
+.next {
+    border: 1px solid #eee;
+    color: black;
+    padding: 7px;
+    width: 40px;
+    height: 40px;
+    margin: 5px;
+    border-radius: 50%;
+    border: 1px solid rgb(194, 185, 185);
+}
+
+.today {
+    padding: 10px 18px;
+    margin-right: 20px;
+    font-size: 17px;
+    background-color: #eee;
+    border: 1px solid rgb(194, 185, 185);
+    border-radius: 22px;
+}
+
+.prev:hover,
+.next:hover,
+.today:hover {
+    background-color: #ddd;
+}
+
+.prev:active,
+.next:active,
+.today:active {
+    background-color: #ccc;
+}
+
+.date {
+    width: 75px;
+    text-align: center;
+}
+
+.select{
+    margin-left: auto;
+    padding: 4px 16px;
+    font-size: 16px;
+}

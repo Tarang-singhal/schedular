@@ -1,0 +1,105 @@
+.container {
+    padding: 0 13px;
+    height: 100%;
+}
+
+.weekNames {
+    display: flex;
+    color: white;
+    width: 100%;
+}
+
+.weekName {
+    background-color: #47abf3;
+    text-align: center;
+    margin: 3px 3px 0;
+    padding: 5px 3px;
+    font-size: 18px;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    cursor: pointer;
+}
+
+.weekName:hover{
+    background-color: #6298d6;
+}
+
+.currDay {
+    background-color: #0d3f79;
+    color: white;
+}
+
+.weeksContainer {
+    display: flex;
+    height: 100%;
+}
+
+.week{
+    flex-grow: 1;
+    border: 1px solid #ddd;
+    border-top: 0;
+    overflow-y: auto;
+    margin: 0px 3px;
+    width: calc(100% / 7);
+    padding: 5px;
+}
+
+.slots {
+    word-break: break-all;
+    height: calc(100vh - 145px);
+    overflow-y: auto;
+    cursor: pointer;
+}
+
+.slot {
+    font-size: 13px;
+    margin: 3px 2px;
+    padding: 3px 30%;
+    border-radius: 2px;
+    color: white;
+    font-family: Arial, Helvetica, sans-serif;
+    min-height: 100px;
+    cursor: default;
+    user-select: none;
+}
+
+.detail1{
+    display: flex;
+    width: 100%;
+    align-items: center;
+}
+
+.detail2{
+    display: flex;
+    width: 100%;
+}
+
+.detail2 span{
+    margin-left: auto;
+}
+
+.name {
+    margin-right: 15px;
+    font-weight: 600;
+    font-size: 22px;
+    margin-top: 8px;
+}
+
+.time {
+    font-size: 14px;
+    font-weight: 500;
+    color: snow;
+}
+.delete{
+    margin-left: auto;
+    cursor: pointer;
+}
+
+.delete:hover{
+    color: red;
+}
+
+.topic{
+    font-size: 18px;
+}

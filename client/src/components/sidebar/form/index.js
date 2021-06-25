@@ -61,9 +61,9 @@ function InputModal({ openModal, handleCloseModal, editTeacher, teachers, setTea
         e.preventDefault();
         setSubmitting(true);
         try {
-            const {data} = await Axios.put('/api/editTeacher',inputs);
+            const { data } = await Axios.put('/api/editTeacher', inputs);
             let newTeachers = teachers.map(t => {
-                if(t.id == editTeacher.id){
+                if (t.id == editTeacher.id) {
                     t = inputs;
                 }
                 return t;
@@ -113,7 +113,9 @@ function InputModal({ openModal, handleCloseModal, editTeacher, teachers, setTea
                     disabled={submitting}
                     onChange={(e) => handleChange(e.target.value, 'age')}
                 />
-                <button disabled={submitting}>Submit</button>
+                <div className={classes.center}>
+                    <button className={classes.button} disabled={submitting}>Submit</button>
+                </div>
             </form>
         </Modal>
     )

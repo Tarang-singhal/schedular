@@ -5,14 +5,13 @@ import Axios from 'axios';
 import InputModal from './form';
 import List from './list';
 
-function Sidebar({teachers, setTeachers, selectTeacher, unSelectTeacher, checked, setChecked}) {
+function Sidebar({ teachers, setTeachers, selectTeacher, unSelectTeacher, checked, setChecked }) {
     const [openModal, setOpenModal] = React.useState(false);
     const [editTeacher, setEditTeacher] = React.useState({});
 
     React.useEffect(() => {
         async function fetch() {
             const { data } = await Axios.get('/api/teachers');
-            console.log(data.teachers);
             setTeachers(data.teachers);
         }
         fetch();
@@ -30,7 +29,7 @@ function Sidebar({teachers, setTeachers, selectTeacher, unSelectTeacher, checked
 
     const handleDelete = async (teacher) => {
         const id = teacher.id;
-        let yes = window.confirm(`Are you sure you want to delete "${teacher.name}" ?`);
+        let yes = window.confirm(`Are you sure you want to delete "${teacher.name}" ? You will lose all classes associated with "${teacher.name}"`);
         if (!yes) return;
         try {
             let res = await Axios.delete(`/api/deleteTeacher/${id}`);
@@ -39,6 +38,7 @@ function Sidebar({teachers, setTeachers, selectTeacher, unSelectTeacher, checked
                 return true;
             })
             setTeachers(newTeachers);
+            setChecked(checked.filter(el => el.id != id));
         } catch (e) {
             alert("Something went wrong!");
             console.log(e);

@@ -6,12 +6,14 @@ import Axios from 'axios';
 
 function InputForm({ teachers, openModal, handleCloseModal, date, slots, setSlots }) {
 
-    const [selectedDate, setSelectedDate] = React.useState(dayjs(date));
+    const [selectedDate, setSelectedDate] = React.useState(dayjs(date).startOf('date').startOf('hour').startOf('minute'));
     const [selectedTeacher, setSelectedTeacher] = React.useState(teachers[0] ? teachers[0].id : '');
     const [batchName, setBatchName] = React.useState('');
-    const [startTime, setStartTime] = React.useState(dayjs(selectedDate).startOf('hour').startOf('minute'));
-    const [endTime, setEndTime] = React.useState(dayjs(selectedDate).endOf('hour').endOf('minute'));
+    const [startTime, setStartTime] = React.useState(dayjs(selectedDate).startOf('hour').startOf('minute').startOf('second'));
+    const [endTime, setEndTime] = React.useState(dayjs(selectedDate).endOf('hour').endOf('minute').startOf('second'));
     const [submitting, setSubmitting] = React.useState(false);
+    const [topic, setTopic] = React.useState('');
+    const [error, setError] = React.useState({ start: null, end: null });
 
     React.useEffect(() => {
         setSelectedDate(dayjs(date));
@@ -25,6 +27,60 @@ function InputForm({ teachers, openModal, handleCloseModal, date, slots, setSlot
         setStartTime(startTime.set('date', selectedDate.date()));
         setEndTime(endTime.set('date', selectedDate.date()));
     }, [selectedDate])
+
+    const resetError = () => {
+        setError({ start: null, end: null });
+    }
+
+    React.useEffect(() => {
+        if (startTime.isAfter(endTime, 'minute') || startTime.isSame(endTime, 'minute')) {
+            setError({
+                start: 'start time should be less than end!',
+                end: null
+            })
+            return true;
+        }
+        let temp = slots[selectedTeacher] || [];
+        console.log(temp);
+        for (let i = 0; i < temp.length; i++) {
+            let slot = temp[i];
+            console.log(slot);
+            let { start: x, end: y } = slot;
+            let start = dayjs(x);
+            let end = dayjs(y);
+            console.log(start.toDate());
+            console.log(end.toDate());
+            if (startTime.isSame(start, 'minute')) {
+                setError({
+                    start: 'start time overlapping with other class time!',
+                    end: null
+                })
+                return true;
+            }
+            if (startTime.isAfter(start, 'minute') && startTime.isBefore(end, 'minute')) {
+                setError({
+                    start: 'start time overlapping with other class time!',
+                    end: null
+                })
+                return true;
+            }
+            if (endTime.isAfter(start, 'minute') && endTime.isBefore(end, 'minute')) {
+                setError({
+                    start: null,
+                    end: 'end time overlapping with other class time!'
+                })
+                return true;
+            }
+            if (startTime.isBefore(start, 'minute') && endTime.isAfter(end, 'minute')) {
+                setError({
+                    start: 'class in between!',
+                    end: null
+                })
+                return true;
+            }
+        }
+        resetError();
+    }, [startTime.toString(), endTime.toString(), slots.length, selectedTeacher]);
 
     const handleStartTimeChange = (e) => {
         let [h, m] = e.target.value.split(':');
@@ -42,19 +98,24 @@ function InputForm({ teachers, openModal, handleCloseModal, date, slots, setSlot
         setSelectedTeacher(teachers[0] ? teachers[0].id : '');
         setSelectedDate(dayjs());
         setBatchName('');
+        setTopic('');
         handleCloseModal();
     }
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+        if (error.start || error.end) {
+            return;
+        }
         setSubmitting(true);
         let formData = {
             teacher_id: selectedTeacher,
-            batch_name: batchName,
+            batch_name: batchName.trim(),
+            date: selectedDate,
             start: startTime.toISOString(),
-            end: endTime.toISOString()
+            end: endTime.toISOString(),
+            topic
         };
-        console.log(formData);
         try {
             let { data } = await Axios.post('/api/addSlot', formData);
             let id = data.id;
@@ -78,11 +139,11 @@ function InputForm({ teachers, openModal, handleCloseModal, date, slots, setSlot
 
     return (
 
-        openModal && 
+        openModal &&
         < Modal
             heading={"Schedule a class"}
             openModal={openModal}
-            handleCloseModal={handleClose}
+            handleCloseModal={!submitting && handleClose}
         >
             <form className={classes.form} onSubmit={handleSubmit}>
                 <label htmlFor="teacher_input">Select teacher: </label>
@@ -99,6 +160,9 @@ function InputForm({ teachers, openModal, handleCloseModal, date, slots, setSlot
                 <label htmlFor="batch_input">Batch Name: </label>
                 <input disabled={submitting} type="text" id="batch_input" required value={batchName} placeholder="e.g. MMUB" maxLength={25} onChange={(e) => setBatchName(e.target.value)} />
 
+                <label htmlFor="topic_input">Topic Name: </label>
+                <input disabled={submitting} type="text" id="topic_input" required value={topic} placeholder="e.g. Web-Dev" maxLength={25} onChange={(e) => setTopic(e.target.value)} />
+
                 <label htmlFor="date_input">Select Date: </label>
                 <input disabled={submitting} type="date" id="date_input" required value={selectedDate.format('YYYY-MM-DD')} onChange={(e) => setSelectedDate(dayjs(e.target.value))} />
 
@@ -112,7 +176,12 @@ function InputForm({ teachers, openModal, handleCloseModal, date, slots, setSlot
                         <input disabled={submitting} type="time" id="end_input" required value={endTime.format('HH:mm')} onChange={handleEndTimeChange} />
                     </span>
                 </div>
-                <button disabled={submitting}>Submit</button>
+                <p style={{ height: '15px', color: 'red', fontSize: '12px', margin: '5px, 0' }}>
+                    {error.start || error.end}
+                </p>
+                <div className={classes.center}>
+                    <button className={classes.button} disabled={submitting || error.start || error.end}>Submit</button>
+                </div>
             </form>
         </Modal >
     )
