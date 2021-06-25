@@ -33,7 +33,7 @@ function InputForm({ teachers, openModal, handleCloseModal, date, slots, setSlot
     }
 
     React.useEffect(() => {
-        if (startTime.isAfter(endTime, 'minute') || startTime.isSame(endTime, 'minute')) {
+        if (startTime.isAfter(endTime.clone().subtract(1,'minute'), 'minute') || startTime.isSame(endTime, 'minute')) {
             setError({
                 start: 'start time should be less than end!',
                 end: null
@@ -46,28 +46,21 @@ function InputForm({ teachers, openModal, handleCloseModal, date, slots, setSlot
             let { start: x, end: y } = slot;
             let start = dayjs(x);
             let end = dayjs(y);
-            if (startTime.isSame(start, 'minute')) {
+            if (startTime.isAfter(start.clone().subtract(1, 'minute'), 'minute') && startTime.isBefore(end.clone().add(1, 'minute'), 'minute')) {
                 setError({
                     start: 'start time overlapping with other class time!',
                     end: null
                 })
                 return true;
             }
-            if (startTime.isAfter(start, 'minute') && startTime.isBefore(end, 'minute')) {
-                setError({
-                    start: 'start time overlapping with other class time!',
-                    end: null
-                })
-                return true;
-            }
-            if (endTime.isAfter(start, 'minute') && endTime.isBefore(end, 'minute')) {
+            if (endTime.isAfter(start.clone().subtract(1 ,'minute'), 'minute') && endTime.isBefore(end.clone().add(1,'minute'), 'minute')) {
                 setError({
                     start: null,
                     end: 'end time overlapping with other class time!'
                 })
                 return true;
             }
-            if (startTime.isBefore(start, 'minute') && endTime.isAfter(end, 'minute')) {
+            if (startTime.isBefore(start.clone().add(1,'minute'), 'minute') && endTime.isAfter(end.clone().subtract(1,'minute'), 'minute')) {
                 setError({
                     start: 'class in between!',
                     end: null
