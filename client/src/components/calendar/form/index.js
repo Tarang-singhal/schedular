@@ -80,7 +80,7 @@ function InputForm({ teachers, openModal, handleCloseModal, date, slots, setSlot
             }
         }
         resetError();
-    }, [startTime.toString(), endTime.toString(), slots.length, selectedTeacher]);
+    }, [startTime.toString(), endTime.toString(), slots.length, selectedTeacher, openModal]);
 
     const handleStartTimeChange = (e) => {
         let [h, m] = e.target.value.split(':');
