@@ -1,10 +1,12 @@
 const express = require('express');
 const uuid = require('uuid4');
 const dayjs = require('dayjs');
-
+const utc = require('dayjs/plugin/utc');
 const pool = require('../connectionPool');
 
 const router = express.Router();
+
+dayjs.extend(utc);
 
 router.get('/getSlots', (req, res) => {
     try {
@@ -50,7 +52,7 @@ router.post('/addSlot', (req, res) => {
         const { teacher_id, batch_name, date, start, end, topic } = req.body;
         const id = uuid();
         const format = 'YYYY-MM-DD HH:mm:ss';
-        const sql = `INSERT INTO slots (id, teacher_id, batch_name, date, start, end, topic) Values ('${id}', '${teacher_id}', '${batch_name}', '${dayjs(date).format(format)}', '${dayjs(start).format(format)}', '${dayjs(end).format(format)}', '${topic}' )`;
+        const sql = `INSERT INTO slots (id, teacher_id, batch_name, date, start, end, topic) Values ('${id}', '${teacher_id}', '${batch_name}', '${dayjs(date).utc().format(format)}', '${dayjs(start).utc().format(format)}', '${dayjs(end).utc().format(format)}', '${topic}' )`;
         pool.getConnection((err, connection) => {
             if (err) throw err;
             connection.query(sql, (err, results) => {
