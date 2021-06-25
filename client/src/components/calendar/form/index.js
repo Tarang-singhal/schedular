@@ -41,15 +41,11 @@ function InputForm({ teachers, openModal, handleCloseModal, date, slots, setSlot
             return true;
         }
         let temp = slots[selectedTeacher] || [];
-        console.log(temp);
         for (let i = 0; i < temp.length; i++) {
             let slot = temp[i];
-            console.log(slot);
             let { start: x, end: y } = slot;
             let start = dayjs(x);
             let end = dayjs(y);
-            console.log(start.toDate());
-            console.log(end.toDate());
             if (startTime.isSame(start, 'minute')) {
                 setError({
                     start: 'start time overlapping with other class time!',
@@ -120,7 +116,6 @@ function InputForm({ teachers, openModal, handleCloseModal, date, slots, setSlot
             let { data } = await Axios.post('/api/addSlot', formData);
             let id = data.id;
             let temp = slots[selectedTeacher] || [];
-            console.log(slots, temp);
             setSlots({
                 ...slots,
                 [selectedTeacher]: [
