@@ -3,9 +3,6 @@ import classes from './App.module.css';
 import Axios from 'axios';
 import Sidebar from './components/sidebar';
 import Calendar from './components/calendar';
-import dayjs from 'dayjs';
-import utc from 'dayjs/plugin/utc';
-dayjs.extend(utc);
 
 
 function App() {
@@ -18,16 +15,8 @@ function App() {
     async function fetch() {
       setFetching(true);
       let { data } = await Axios.get(`/api/getSlots`);
-      let slotsArr = data.slots.map(slot => {
-        return{
-          ...slot,
-          start: dayjs(slot['start']).utc(),
-          end: dayjs(slot['end']).utc(),
-          date: dayjs(slot['date']).utc()
-        }
-      })
       let temp = {};
-      slotsArr.forEach(slot => {
+      data.slots.forEach(slot => {
         if (!temp[slot.teacher_id]) temp[slot.teacher_id] = [];
         temp[slot.teacher_id].push(slot);
       })
@@ -40,7 +29,6 @@ function App() {
   const selectTeacher = async (id) => {
     try {
       let { data } = await Axios.get(`/api/getSlots/${id}`);
-      console.log(data.slots);
       setSlots({
         ...slots,
         [id]: data.slots
