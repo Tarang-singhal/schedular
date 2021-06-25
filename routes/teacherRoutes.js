@@ -1,4 +1,3 @@
-const e = require('express');
 const express = require('express');
 const uuid = require('uuid4');
 const pool = require('../connectionPool');
